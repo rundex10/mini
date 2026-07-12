@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<title>Spencer — Mining Mini App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Top bar: identity + live balance ticker -->
+  <header class="topbar">
+    <div class="identity">
+      <div class="avatar" id="avatar">S</div>
+      <div class="identity-text">
+        <span class="hello" id="helloName">Miner</span>
+        <span class="substreak" id="streakLine">Streak: 0 hari</span>
+      </div>
+    </div>
+    <div class="balance-pill">
+      <span class="coin-dot" aria-hidden="true"></span>
+      <span id="balanceValue">0</span>
+    </div>
+  </header>
+
+  <!-- Screens -->
+  <main class="screens">
+
+    <!-- MINE -->
+    <section class="screen active" data-screen="mine">
+      <div class="shaft-card">
+        <div class="shaft-gauge" aria-hidden="true">
+          <svg id="gaugeSvg" viewBox="0 0 60 220" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="shaft-body">
+          <p class="eyebrow">SESI PENAMBANGAN 24 JAM</p>
+          <h1 class="shaft-rate"><span id="rateValue">100</span> <small>koin / jam</small></h1>
+
+          <div class="shaft-readout">
+            <div class="readout-block">
+              <span class="readout-label">Terkumpul</span>
+              <span class="readout-value" id="earnedSoFar">0</span>
+            </div>
+            <div class="readout-block">
+              <span class="readout-label">Sisa Waktu</span>
+              <span class="readout-value mono" id="countdown">24:00:00</span>
+            </div>
+          </div>
+
+          <button class="action-btn" id="mineActionBtn">Mulai Menambang</button>
+          <p class="hint" id="mineHint">Tekan untuk memulai sesi 24 jam. Kamu tidak perlu membuka aplikasi terus — datang lagi setelah waktu habis untuk klaim.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section class="screen" data-screen="tasks">
+      <h2 class="screen-title">Panel Tugas</h2>
+      <p class="screen-sub">Selesaikan tugas untuk koin instan dan sebagian menaikkan laju tambang permanen.</p>
+      <div id="taskList" class="task-list"></div>
+
+      <div class="checkin-card">
+        <div>
+          <p class="checkin-title">Check-in Harian</p>
+          <p class="checkin-sub" id="checkinSub">Streak 0 hari</p>
+        </div>
+        <button class="action-btn small" id="checkinBtn">Check-in</button>
+      </div>
+    </section>
+
+    <!-- LEADERBOARD -->
+    <section class="screen" data-screen="board">
+      <h2 class="screen-title">Papan Peringkat</h2>
+      <p class="screen-sub" id="myRankLine">Peringkatmu: —</p>
+      <ol id="leaderboardList" class="leaderboard-list"></ol>
+    </section>
+
+    <!-- UPGRADES -->
+    <section class="screen" data-screen="upgrade">
+      <h2 class="screen-title">Tingkatkan Rig</h2>
+      <p class="screen-sub">Naikkan laju tambang permanen. Dibayar dengan Telegram Stars — proses lewat Telegram, tanpa kartu atau dompet crypto.</p>
+      <div class="upgrade-current">Laju tambang saat ini: <strong id="currentRateLine">100 koin/jam</strong></div>
+      <div id="upgradeList" class="upgrade-list"></div>
+    </section>
+
+    <!-- INVITE -->
+    <section class="screen" data-screen="invite">
+      <h2 class="screen-title">Ajak Teman</h2>
+      <p class="screen-sub">Setiap teman yang bergabung lewat tautanmu = <strong>250 koin</strong> langsung untukmu, plus progres menuju bonus 3-teman senilai 1000 koin.</p>
+
+      <div class="invite-card">
+        <span class="invite-label">Tautan undanganmu</span>
+        <code id="referralLink">memuat…</code>
+        <button class="action-btn small" id="copyLinkBtn">Salin Tautan</button>
+        <button class="action-btn small ghost" id="shareLinkBtn">Bagikan ke Chat</button>
+      </div>
+
+      <div class="invite-progress">
+        <span id="referralCountLine">0 teman diundang</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom tab navigation -->
+  <nav class="tabbar">
+    <button class="tab active" data-tab="mine">
+      <span class="tab-icon" aria-hidden="true">⛏</span>
+      <span>Tambang</span>
+    </button>
+    <button class="tab" data-tab="tasks">
+      <span class="tab-icon" aria-hidden="true">☑</span>
+      <span>Tugas</span>
+    </button>
+    <button class="tab" data-tab="upgrade">
+      <span class="tab-icon" aria-hidden="true">⚡</span>
+      <span>Upgrade</span>
+    </button>
+    <button class="tab" data-tab="board">
+      <span class="tab-icon" aria-hidden="true">▲</span>
+      <span>Peringkat</span>
+    </button>
+    <button class="tab" data-tab="invite">
+      <span class="tab-icon" aria-hidden="true">✉</span>
+      <span>Ajak</span>
+    </button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
